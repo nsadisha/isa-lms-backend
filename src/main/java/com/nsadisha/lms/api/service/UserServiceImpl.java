@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static java.rmi.server.LogStream.log;
-
 /**
  * @author Sadisha Nimsara
  * @created 31 of Jan 2023
@@ -32,7 +30,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> getAllUsers() {
-        log("Log all users");
         return userRepository.findAll();
     }
 }
