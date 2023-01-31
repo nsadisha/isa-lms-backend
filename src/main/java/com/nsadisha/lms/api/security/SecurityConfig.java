@@ -1,14 +1,14 @@
-package com.nsadisha.isa_lms_backend.security;
+package com.nsadisha.lms.api.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
-//    @Bean
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
