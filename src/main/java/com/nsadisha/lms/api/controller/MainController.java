@@ -1,4 +1,4 @@
-package com.nsadisha.isa_lms_backend.controller;
+package com.nsadisha.lms.api.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
