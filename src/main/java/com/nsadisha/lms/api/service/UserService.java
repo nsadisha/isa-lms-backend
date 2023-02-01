@@ -9,7 +9,7 @@ import java.util.List;
  * @created 31 of Jan 2023
  **/
 public interface UserService {
-    User saveUser(User user);
-    User getUser(String email);
+    User saveUser(User user) throws Exception;
+    User getUser(String email) throws Exception;
     List<User> getAllUsers();
 }
