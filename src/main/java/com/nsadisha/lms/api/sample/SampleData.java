@@ -22,10 +22,10 @@ public class SampleData {
                 new User(0, "Sadisha", "Nimsara", "nsadisha@gmail.com", "123123", Role.STUDENT)
         );
         userService.saveUser(
-                new User(0, "Malshani", "Dahanayake", "malshani@gmail.com", "123123", Role.STUDENT)
+                new User(0, "Malshani", "Dahanayake", "malshani@gmail.com", "123123", Role.TEACHER)
         );
         userService.saveUser(
-                new User(0, "Pubudu", "Wickramathunga", "pubudu@gmail.com", "123123", Role.STUDENT)
+                new User(0, "Pubudu", "Wickramathunga", "pubudu@gmail.com", "123123", Role.MANAGEMENT_STAFF)
         );
     }
 }
