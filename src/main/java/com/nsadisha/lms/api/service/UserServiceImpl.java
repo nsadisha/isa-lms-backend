@@ -1,6 +1,7 @@
 package com.nsadisha.lms.api.service;
 
 import com.nsadisha.lms.api.model.User;
+import com.nsadisha.lms.api.model.UserFactory;
 import com.nsadisha.lms.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional @Slf4j
 public class UserServiceImpl implements UserService{
+    private final UserFactory userFactory;
     private final UserRepository userRepository;
     @Override
     public User saveUser(User user) {
-        return userRepository.save(user);
+        return userRepository.save(
+                userFactory.getInstance(user)
+        );
     }
 
     @Override
