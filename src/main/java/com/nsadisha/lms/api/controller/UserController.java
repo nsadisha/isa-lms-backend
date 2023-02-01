@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
@@ -32,10 +32,5 @@ public class UserController {
             throw new UsernameNotFoundException("No user found with "+email);
         }
         return ResponseEntity.ok().body(user);
-    }
-
-    @GetMapping("/all")
-    ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
     }
 }
