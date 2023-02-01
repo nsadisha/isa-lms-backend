@@ -1,45 +1,34 @@
 package com.nsadisha.lms.api.config;
 
+import com.nsadisha.lms.api.filter.JwtAuthFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
-//    private final UserAuthenticationFilter userAuthenticationFilter;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.csrf().disable();
+        http.authorizeHttpRequests().requestMatchers("").permitAll();
+        http.authorizeHttpRequests().anyRequest().authenticated();
 
-        http.authorizeHttpRequests().requestMatchers("/", "/js/**", "/css/**", "/images/**").permitAll();
-        http.formLogin(form -> form.loginPage("/login").permitAll());
-        http.logout().logoutUrl("/logout").permitAll();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeHttpRequests().requestMatchers("/api/user/**").permitAll();
-        http.authorizeHttpRequests().requestMatchers("/api/student/**").permitAll();
+        http.authenticationProvider(authenticationProvider);
 
-        http.authorizeHttpRequests().anyRequest().permitAll();
-//        http.addFilter(userAuthenticationFilter);
-
-
-//        http.authorizeHttpRequests(requests -> requests
-//                        .requestMatchers("/**")
-//                        .permitAll()
-//                        .anyRequest()
-//                        .authenticated()
-//                )
-//                .formLogin((form) -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                )
-//                .logout(LogoutConfigurer::permitAll);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
