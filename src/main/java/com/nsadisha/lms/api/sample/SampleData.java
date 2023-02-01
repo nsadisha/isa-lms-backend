@@ -17,7 +17,7 @@ public class SampleData {
     private final UserService userService;
 
     @PostConstruct
-    private void addSampleUsers() {
+    private void addSampleUsers() throws Exception{
         userService.saveUser(
                 new User(0, "Sadisha", "Nimsara", "nsadisha@gmail.com", "123123", Role.STUDENT)
         );
