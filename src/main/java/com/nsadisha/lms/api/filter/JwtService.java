@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -23,11 +24,12 @@ public class JwtService {
     private static final String SECRET_KEY = "5A7134743777217A25432A462D4A614E645266556A586E3272357538782F413F";
 
     //token with extra claims
-    public String generateToken(Map<String, Object> extraClaims, User user) {
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         int validDays = 1;
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24 * validDays))
                 .signWith(getSignedKey(), SignatureAlgorithm.ES256)
@@ -35,8 +37,8 @@ public class JwtService {
     }
 
     //token without extra claims
-    public String generateToken(User user) {
-        return generateToken(new HashMap<>(), user);
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
     }
 
     //extract username from the token
@@ -61,9 +63,9 @@ public class JwtService {
     }
 
     //check is a token is valid
-    public boolean isTokenValid(String token, User user) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
-        return username.equals(user.getEmail()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     //check if a token is expired
