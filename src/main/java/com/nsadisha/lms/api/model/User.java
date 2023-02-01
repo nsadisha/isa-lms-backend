@@ -30,4 +30,13 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(User user) {
+        this.id = user.getId();
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.role = user.getRole();
+    }
 }
