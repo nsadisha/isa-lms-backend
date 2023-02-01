@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/save")
-    ResponseEntity<User> saveUser(User user) throws Exception{
+    ResponseEntity<User> saveUser(@RequestBody User user) throws Exception{
         return ResponseEntity.ok().body(userService.saveUser(user));
     }
 
