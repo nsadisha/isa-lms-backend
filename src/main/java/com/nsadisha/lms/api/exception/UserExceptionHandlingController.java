@@ -1,20 +1,12 @@
 package com.nsadisha.lms.api.exception;
 
-import jakarta.security.auth.message.callback.SecretKeyCallback;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.WebRequest;
-
-import java.util.Map;
 
 
 /**
@@ -23,11 +15,15 @@ import java.util.Map;
  **/
 @ControllerAdvice @Slf4j
 public class UserExceptionHandlingController {
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseBody
-    public String userNotFound(Exception e) {
+    public ResponseEntity<?> handleUserNotFoundException(Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getLocalizedMessage());
+    }
 
-        return e.getLocalizedMessage();
+    @ExceptionHandler(NullUserException.class)
+    @ResponseBody
+    public ResponseEntity<?> handleNullUserException(Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getLocalizedMessage());
     }
 }
