@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * @author Sadisha Nimsara
  * @created 31 of Jan 2023
@@ -35,10 +33,5 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("No user found with "+email));
         return userFactory.getInstance(user);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
     }
 }
