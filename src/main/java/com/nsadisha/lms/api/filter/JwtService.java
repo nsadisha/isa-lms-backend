@@ -57,7 +57,7 @@ public class JwtService {
                 .parserBuilder()
                 .setSigningKey(getSignedKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 

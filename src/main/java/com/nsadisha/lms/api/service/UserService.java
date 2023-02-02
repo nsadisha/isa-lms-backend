@@ -7,6 +7,5 @@ import com.nsadisha.lms.api.model.User;
  * @created 31 of Jan 2023
  **/
 public interface UserService {
-    User saveUser(User user) throws Exception;
     User getUser(String email) throws Exception;
 }

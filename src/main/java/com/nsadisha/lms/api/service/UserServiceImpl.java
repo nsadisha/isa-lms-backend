@@ -1,6 +1,5 @@
 package com.nsadisha.lms.api.service;
 
-import com.nsadisha.lms.api.exception.NullUserException;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.model.UserFactory;
 import com.nsadisha.lms.api.repository.UserRepository;
@@ -20,13 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService{
     private final UserFactory userFactory;
     private final UserRepository userRepository;
-    @Override
-    public User saveUser(User user) throws Exception {
-        if(user.getRole() == null) throw new NullUserException("This user is null");
-        return userRepository.save(
-                userFactory.getInstance(user)
-        );
-    }
 
     @Override
     public User getUser(String email) throws UsernameNotFoundException{

@@ -4,7 +4,10 @@ import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Sadisha Nimsara
@@ -17,14 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/save")
-    ResponseEntity<User> saveUser(@RequestBody User user) throws Exception{
-        return ResponseEntity.ok().body(userService.saveUser(user));
-    }
-
-    @GetMapping("/get")
-    ResponseEntity<User> getUser(@RequestParam String email) throws Exception{
-        User user = userService.getUser(email);
-        return ResponseEntity.ok().body(user);
+    @GetMapping("/info")
+    ResponseEntity<?> getUserInfo(Authentication auth) throws Exception{
+        User user = userService.getUser(auth.getName());
+        return ResponseEntity.ok(user);
     }
 }

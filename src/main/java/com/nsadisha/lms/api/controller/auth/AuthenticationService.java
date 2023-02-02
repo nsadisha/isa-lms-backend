@@ -5,7 +5,6 @@ import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.model.UserFactory;
 import com.nsadisha.lms.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
  * @author Sadisha Nimsara
  * @created 01 of Feb 2023
  **/
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -36,7 +34,6 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
 
-        log.info(user.toString());
         userRepository.save(userFactory.getInstance(user));
 
         var jwtToken = jwtService.generateToken(user);

@@ -1,8 +1,8 @@
 package com.nsadisha.lms.api.sample;
 
+import com.nsadisha.lms.api.controller.auth.AuthenticationService;
+import com.nsadisha.lms.api.controller.auth.RegisterRequest;
 import com.nsadisha.lms.api.model.Role;
-import com.nsadisha.lms.api.model.User;
-import com.nsadisha.lms.api.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,18 +14,36 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SampleData {
-    private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @PostConstruct
-    private void addSampleUsers() throws Exception{
-        userService.saveUser(
-                new User(0, "Sadisha", "Nimsara", "nsadisha@gmail.com", "123123", Role.STUDENT)
+    private void addSampleUsers() {
+        authenticationService.register(
+                new RegisterRequest(
+                        "Sadisha",
+                        "Nimsara",
+                        "nsadisha@gmail.com",
+                        "123123",
+                        Role.STUDENT
+                )
         );
-        userService.saveUser(
-                new User(0, "Malshani", "Dahanayake", "malshani@gmail.com", "123123", Role.TEACHER)
+        authenticationService.register(
+                new RegisterRequest(
+                        "Malshani",
+                        "Dahanayake",
+                        "malshani@gmail.com",
+                        "123123",
+                        Role.TEACHER
+                )
         );
-        userService.saveUser(
-                new User(0, "Pubudu", "Wickramathunga", "pubudu@gmail.com", "123123", Role.MANAGEMENT_STAFF)
+        authenticationService.register(
+                new RegisterRequest(
+                        "Pubudu",
+                        "Wickramathunga",
+                        "pubudu@gmail.com",
+                        "123123",
+                        Role.MANAGEMENT_STAFF
+                )
         );
     }
 }
