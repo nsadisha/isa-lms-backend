@@ -1,6 +1,5 @@
 package com.nsadisha.lms.api.filter;
 
-import com.nsadisha.lms.api.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -32,7 +31,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24 * validDays))
-                .signWith(getSignedKey(), SignatureAlgorithm.ES256)
+                .signWith(getSignedKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
