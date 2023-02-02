@@ -1,4 +1,4 @@
-package com.nsadisha.isa_lms_backend;
+package com.nsadisha.lms.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
