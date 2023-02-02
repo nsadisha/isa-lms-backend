@@ -21,21 +21,21 @@ public class UserExceptionHandlingController {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseBody
     public ResponseEntity<?> handleUserNotFoundException(Exception e, HttpServletResponse httpRes, HttpServletRequest httpReq) {
-        ErrorInfo errorInfo = new ErrorInfo(e, httpReq, httpRes);
+        ErrorInfo errorInfo = new ErrorInfo(e, httpReq);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorInfo.asMap());
     }
 
     @ExceptionHandler(NullUserException.class)
     @ResponseBody
     public ResponseEntity<?> handleNullUserException(Exception e, HttpServletResponse httpRes, HttpServletRequest httpReq) {
-        ErrorInfo errorInfo = new ErrorInfo(e, httpReq, httpRes);
+        ErrorInfo errorInfo = new ErrorInfo(e, httpReq);
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorInfo.asMap());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public ResponseEntity<?> handleMessageNotReadableException(Exception e, HttpServletResponse httpRes, HttpServletRequest httpReq) {
-        ErrorInfo errorInfo = new ErrorInfo(e, httpReq, httpRes);
+        ErrorInfo errorInfo = new ErrorInfo(e, httpReq);
         String message = e.getLocalizedMessage().split(":")[0];
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo.asMap(message));
     }
