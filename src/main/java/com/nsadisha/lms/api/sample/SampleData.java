@@ -17,7 +17,7 @@ public class SampleData {
     private final AuthenticationService authenticationService;
 
     @PostConstruct
-    private void addSampleUsers() {
+    private void addSampleUsers() throws Exception{
         authenticationService.register(
                 new RegisterRequest(
                         "Sadisha",
