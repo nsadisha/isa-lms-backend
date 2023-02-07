@@ -30,6 +30,8 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) throws Exception{
         try{
+            request.validateRegisterRequest();
+
             User user = User.builder()
                     .first_name(request.getFirst_name())
                     .last_name(request.getLast_name())
@@ -46,6 +48,7 @@ public class AuthenticationService {
                     .user(user)
                     .build();
         }catch(DataIntegrityViolationException e){
+            e.printStackTrace();
             throw new EmailAlreadyInUseException("Your email address is already in use.");
         }catch(Exception e) {
             throw new Exception(e.getLocalizedMessage());
