@@ -26,13 +26,22 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String first_name;
+
+    @Column(nullable = false)
     private String last_name;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     public User(User user) {
