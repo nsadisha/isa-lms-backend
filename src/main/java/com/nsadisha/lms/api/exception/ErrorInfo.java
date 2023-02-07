@@ -34,4 +34,18 @@ public class ErrorInfo {
                 "message", message
         );
     }
+
+    @Override
+    public String toString() {
+        return toString(e.getLocalizedMessage());
+    }
+
+    public String toString(String message) {
+        return "{" +
+                "\"method\": \""+httpReq.getMethod()+
+                "\",\"path\": \""+httpReq.getServletPath()+
+                "\",\"timestamp\": \""+timestamp+
+                "\",\"message\": \""+message+
+                "\"}";
+    }
 }
