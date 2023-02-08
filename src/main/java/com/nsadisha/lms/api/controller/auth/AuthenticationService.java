@@ -48,7 +48,6 @@ public class AuthenticationService {
                     .user(user)
                     .build();
         }catch(DataIntegrityViolationException e){
-            e.printStackTrace();
             throw new EmailAlreadyInUseException("Your email address is already in use.");
         }catch(Exception e) {
             throw new Exception(e.getLocalizedMessage());
