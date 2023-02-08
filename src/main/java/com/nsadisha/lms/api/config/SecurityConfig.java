@@ -22,9 +22,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().cors();
         http.authorizeHttpRequests().requestMatchers("/auth/**").permitAll();
-        http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/logout#success")
+        http.cors().and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/logout#success")
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
