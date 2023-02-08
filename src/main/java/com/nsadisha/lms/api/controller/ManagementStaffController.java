@@ -1,12 +1,11 @@
 package com.nsadisha.lms.api.controller;
 
+import com.nsadisha.lms.api.controller.auth.RegisterRequest;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.service.ManagementStaffServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +18,14 @@ import java.util.List;
 @RequestMapping("/management")
 public class ManagementStaffController {
     private final ManagementStaffServiceImpl managementStaffService;
+
     @GetMapping("/get_all_users")
-    public ResponseEntity<List<User>> test() {
+    public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(managementStaffService.getAllUsers());
+    }
+
+    @PostMapping("/assign")
+    public ResponseEntity<?> assignNewStaffMember(@RequestBody RegisterRequest registerRequest) throws Exception {
+        return ResponseEntity.ok(managementStaffService.assignNewStaffMember(registerRequest));
     }
 }
