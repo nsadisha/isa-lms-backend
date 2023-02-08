@@ -24,6 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
         http.authorizeHttpRequests().requestMatchers("/auth/**").permitAll();
+
         http.cors().and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/logout#success")
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
@@ -31,7 +32,10 @@ public class SecurityConfig {
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
 
         http.authorizeHttpRequests().requestMatchers("/user/**").authenticated();
-        http.authorizeHttpRequests().anyRequest().authenticated();
+        http.authorizeHttpRequests().requestMatchers("/student/**").hasAuthority("STUDENT");
+        http.authorizeHttpRequests().requestMatchers("/teacher/**").hasAuthority("TEACHER");
+        http.authorizeHttpRequests().requestMatchers("/management/**").hasAuthority("MANAGEMENT_STAFF");
+        http.authorizeHttpRequests().anyRequest().permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
