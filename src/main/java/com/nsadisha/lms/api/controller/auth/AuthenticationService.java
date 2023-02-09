@@ -30,6 +30,8 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) throws Exception{
         try{
+            request.validateRegisterRequest();
+
             User user = User.builder()
                     .first_name(request.getFirst_name())
                     .last_name(request.getLast_name())
