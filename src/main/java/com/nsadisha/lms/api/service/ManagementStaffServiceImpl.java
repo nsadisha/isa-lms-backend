@@ -3,6 +3,7 @@ package com.nsadisha.lms.api.service;
 import com.nsadisha.lms.api.controller.auth.AuthenticationResponse;
 import com.nsadisha.lms.api.controller.auth.AuthenticationService;
 import com.nsadisha.lms.api.controller.auth.RegisterRequest;
+import com.nsadisha.lms.api.model.Role;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ManagementStaffServiceImpl {
         return userRepository.findAll();
     }
     public AuthenticationResponse assignNewStaffMember(RegisterRequest request) throws Exception {
+        request.setRole(Role.MANAGEMENT_STAFF);
         return authenticationService.register(request);
     }
 }
