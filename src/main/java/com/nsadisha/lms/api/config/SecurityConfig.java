@@ -25,12 +25,6 @@ public class SecurityConfig {
         http.csrf().disable().cors();
         http.authorizeHttpRequests().requestMatchers("/auth/**").permitAll();
 
-        http.cors().and().logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/logout#success")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
-
         http.authorizeHttpRequests().requestMatchers("/user/**").authenticated();
         http.authorizeHttpRequests().requestMatchers("/student/**").hasAuthority("STUDENT");
         http.authorizeHttpRequests().requestMatchers("/teacher/**").hasAuthority("TEACHER");
