@@ -72,4 +72,9 @@ public class AuthenticationService {
             throw new Exception(e.getLocalizedMessage());
         }
     }
+
+    public String logout(String token) {
+        boolean logoutStatus = jwtService.blacklistToken(token);
+        return logoutStatus ? "Logout success" : "Logout failed";
+    }
 }
