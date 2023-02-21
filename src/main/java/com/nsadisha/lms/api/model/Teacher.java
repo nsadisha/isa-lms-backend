@@ -1,9 +1,11 @@
 package com.nsadisha.lms.api.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author Sadisha Nimsara
@@ -14,6 +16,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Teacher extends User{
+
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL)
+    private List<Course> conducting_courses;
+
     public Teacher(User user) {
         super(user);
     }
