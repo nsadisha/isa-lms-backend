@@ -73,4 +73,10 @@ public class SampleData {
                 .build();
         courseService.createNewCourse(course3, "malshani@gmail.com");
     }
+
+    @PostConstruct
+    private void enrollStudentsToCourses() throws Exception {
+        courseService.enrollStudent(1, "nsadisha@gmail.com");
+        courseService.enrollStudent(3, "nsadisha@gmail.com");
+    }
 }
