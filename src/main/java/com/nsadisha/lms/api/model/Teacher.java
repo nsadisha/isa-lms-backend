@@ -1,10 +1,12 @@
 package com.nsadisha.lms.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,7 +20,8 @@ import java.util.Set;
 public class Teacher extends User{
 
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL)
-    private Set<Course> conducting_courses;
+    @JsonIgnore
+    private Set<Course> conductingCourses = new HashSet<>();
 
     public Teacher(User user) {
         super(user);
