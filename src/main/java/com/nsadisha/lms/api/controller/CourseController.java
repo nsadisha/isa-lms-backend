@@ -34,6 +34,6 @@ public class CourseController {
             @RequestBody Course course,
             Authentication authentication
     ) throws Exception {
-        return ResponseEntity.ok(courseService.createNewCourse(course, authentication));
+        return ResponseEntity.ok(courseService.createNewCourse(course, authentication.getName()));
     }
 }

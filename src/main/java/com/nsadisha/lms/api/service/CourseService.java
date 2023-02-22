@@ -7,7 +7,6 @@ import com.nsadisha.lms.api.model.Teacher;
 import com.nsadisha.lms.api.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +23,9 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final UserServiceImpl userService;
 
-    public Course createNewCourse(Course course, Authentication authentication) throws Exception {
+    public Course createNewCourse(Course course, String email) throws Exception {
         try {
-            Teacher conductor = (Teacher) userService.getUser(authentication.getName());
+            Teacher conductor = (Teacher) userService.getUser(email);
             course.setConductor(conductor);
             conductor.getConductingCourses().add(course);
             return courseRepository.save(course);
