@@ -3,6 +3,7 @@ package com.nsadisha.lms.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Set;
  **/
 @Data
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
@@ -22,7 +24,7 @@ public class Course {
     private int id;
 
     @Column(unique = true, nullable = false)
-    private String course_code;
+    private String courseCode;
 
     @Column(nullable = false)
     private String name;
