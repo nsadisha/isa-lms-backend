@@ -27,6 +27,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().requestMatchers("/student/**").hasAuthority("STUDENT");
         http.authorizeHttpRequests().requestMatchers("/teacher/**").hasAuthority("TEACHER");
         http.authorizeHttpRequests().requestMatchers("/management/**").hasAuthority("MANAGEMENT_STAFF");
+        http.authorizeHttpRequests().requestMatchers("/course/create/**").hasAuthority("TEACHER");
         http.authorizeHttpRequests().anyRequest().permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
