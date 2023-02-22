@@ -36,4 +36,9 @@ public class CourseController {
     ) throws Exception {
         return ResponseEntity.ok(courseService.createNewCourse(course, authentication.getName()));
     }
+
+    @PostMapping("/enroll/{id}")
+    public ResponseEntity<?> enroll(@PathVariable int id, Authentication authentication) throws Exception{
+        return ResponseEntity.ok(courseService.enrollStudent(id, authentication.getName()));
+    }
 }
