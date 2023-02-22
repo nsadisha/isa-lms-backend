@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class CourseService {
     private final CourseRepository courseRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public Course createNewCourse(Course course, String email) throws Exception {
         try {

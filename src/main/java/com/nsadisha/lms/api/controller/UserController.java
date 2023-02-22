@@ -5,6 +5,7 @@ import com.nsadisha.lms.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/info")
-    ResponseEntity<?> getUserInfo(Authentication auth) throws Exception{
+    ResponseEntity<?> getUserInfo(Authentication auth) throws UsernameNotFoundException {
         User user = userService.getUser(auth.getName());
         return ResponseEntity.ok(user);
     }

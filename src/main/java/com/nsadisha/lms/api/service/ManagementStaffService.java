@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @Service
 @RequiredArgsConstructor
-public class ManagementStaffServiceImpl {
+public class ManagementStaffService {
     private final UserRepository userRepository;
     private final AuthenticationService authenticationService;
 
