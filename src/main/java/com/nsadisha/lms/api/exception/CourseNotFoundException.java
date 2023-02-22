@@ -5,7 +5,7 @@ package com.nsadisha.lms.api.exception;
  * @created 22 of Feb 2023
  **/
 public class CourseNotFoundException extends Exception {
-    public CourseNotFoundException(String message) {
-        super(message);
+    public CourseNotFoundException(String msg) {
+        super(msg);
     }
 }
