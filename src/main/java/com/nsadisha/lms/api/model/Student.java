@@ -1,5 +1,6 @@
 package com.nsadisha.lms.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -23,5 +24,6 @@ public class Student extends User{
     }
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private Set<StudentCourseRegistration> registrations;
 }
