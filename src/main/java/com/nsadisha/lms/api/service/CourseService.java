@@ -19,7 +19,7 @@ import java.util.List;
  **/
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class CourseService {
     private final CourseRepository courseRepository;
     private final UserServiceImpl userService;
