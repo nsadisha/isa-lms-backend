@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * @author Sadisha Nimsara
  * @created 21 of Feb 2023
@@ -29,4 +31,6 @@ public class Course {
     @ManyToOne
     private Teacher conductor;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    private Set<StudentCourseRegistration> registrations;
 }
