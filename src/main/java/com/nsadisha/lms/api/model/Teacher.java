@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sadisha Nimsara
@@ -18,7 +18,7 @@ import java.util.List;
 public class Teacher extends User{
 
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL)
-    private List<Course> conducting_courses;
+    private Set<Course> conducting_courses;
 
     public Teacher(User user) {
         super(user);
