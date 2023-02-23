@@ -26,10 +26,11 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class CourseService {
-    private final StudentCourseRegistrationRepository registrationRepository;
+//    private final StudentCourseRegistrationRepository registrationRepository;
+    private final StudentCourseRegistrationService registrationService;
     private final CourseRepository courseRepository;
     private final TeacherService teacherService;
-    private final UserService userService;
+    private final StudentService studentService;
 
     public Course createNewCourse(Course course, String email) throws Exception {
         try {
@@ -56,26 +57,35 @@ public class CourseService {
 
     public StudentCourseRegistration enrollStudent(int courseId, String email) throws Exception {
         try{
-            Student student = (Student) userService.getUser(email);
+            Student student = studentService.getStudent(email);
             Course course = getCourseById(courseId);
 
             StudentCourseRegistration registration = StudentCourseRegistration
                     .builder()
                     .student(student)
                     .course(course)
-                    .marks(-1)
                     .registrationDate(LocalDateTime.now())
                     .build();
 
             student.getRegistrations().add(registration);
             course.getRegistrations().add(registration);
 
-            return registrationRepository.save(registration);
+            return registrationService.save(registration);
         }catch(DataIntegrityViolationException e) {
             throw new CourseCreationFailureException("You have already enrolled in this course.");
         }catch(Exception e) {
             throw new CourseCreationFailureException(e.getLocalizedMessage());
         }
+    }
+
+    public void unenrollStudent(int courseId, String email) throws Exception{
+        Student student = studentService.getStudent(email);
+        Course course = getCourseById(courseId);
+        StudentCourseRegistration registration = registrationService.getRegistration(course, student);
+
+        registrationService.delete(registration);
+        student.getRegistrations().remove(registration);
+        course.getRegistrations().remove(registration);
     }
 
     public List<Student> getEnrolledStudents(int courseId) throws Exception {
