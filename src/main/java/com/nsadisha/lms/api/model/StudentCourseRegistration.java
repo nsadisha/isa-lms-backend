@@ -34,6 +34,4 @@ public class StudentCourseRegistration {
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registrationDate;
-
-    private float marks;
 }
