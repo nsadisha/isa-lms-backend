@@ -24,7 +24,7 @@ public class Student extends User{
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    public Set<StudentCourseRegistration> registrations = new HashSet<>();
+    private Set<StudentCourseRegistration> registrations = new HashSet<>();
 
     @Override
     public int hashCode() {
