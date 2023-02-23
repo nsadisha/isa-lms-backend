@@ -32,6 +32,7 @@ public class Course {
     @Column(nullable = false)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     @ManyToOne
