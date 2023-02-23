@@ -1,7 +1,6 @@
 package com.nsadisha.lms.api.controller;
 
 import com.nsadisha.lms.api.model.Course;
-import com.nsadisha.lms.api.model.Student;
 import com.nsadisha.lms.api.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +45,10 @@ public class CourseController {
     @PostMapping("/enroll/{id}")
     public ResponseEntity<?> enroll(@PathVariable int id, Authentication authentication) throws Exception{
         return ResponseEntity.ok(courseService.enrollStudent(id, authentication.getName()));
+    }
+
+    @PostMapping("/unenroll/{id}")
+    public void unenroll(@PathVariable int id, Authentication authentication) throws Exception{
+        courseService.unenrollStudent(id, authentication.getName());
     }
 }
