@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().requestMatchers("/management/**").hasAuthority("MANAGEMENT_STAFF");
 
         http.authorizeHttpRequests().requestMatchers("/course/create/**").hasAuthority("TEACHER");
-        http.authorizeHttpRequests().requestMatchers("/course/enroll/**").hasAuthority("STUDENT");
+        http.authorizeHttpRequests().requestMatchers("/course/enroll/**", "/course/unenroll/**").hasAuthority("STUDENT");
         http.authorizeHttpRequests().anyRequest().permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
