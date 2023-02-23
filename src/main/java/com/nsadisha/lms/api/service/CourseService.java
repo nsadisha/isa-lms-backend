@@ -7,7 +7,6 @@ import com.nsadisha.lms.api.model.Student;
 import com.nsadisha.lms.api.model.StudentCourseRegistration;
 import com.nsadisha.lms.api.model.Teacher;
 import com.nsadisha.lms.api.repository.CourseRepository;
-import com.nsadisha.lms.api.repository.StudentCourseRegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
