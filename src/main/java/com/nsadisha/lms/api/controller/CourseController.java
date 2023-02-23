@@ -1,6 +1,7 @@
 package com.nsadisha.lms.api.controller;
 
 import com.nsadisha.lms.api.model.Course;
+import com.nsadisha.lms.api.model.Student;
 import com.nsadisha.lms.api.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ public class CourseController {
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable int id) throws Exception {
         return ResponseEntity.ok(courseService.getCourseById(id));
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<?> getEnrolledStudents(@PathVariable int id) throws Exception{
+        return ResponseEntity.ok(courseService.getEnrolledStudents(id));
     }
 
     @PostMapping("/create")
