@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,5 +26,5 @@ public class Student extends User{
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<StudentCourseRegistration> registrations;
+    public Set<StudentCourseRegistration> registrations = new HashSet<>();
 }
