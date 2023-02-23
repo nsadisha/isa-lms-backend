@@ -1,9 +1,10 @@
 package com.nsadisha.lms.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -13,7 +14,6 @@ import java.util.Set;
  * @author Sadisha Nimsara
  * @created 01 of Feb 2023
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
@@ -25,5 +25,10 @@ public class Teacher extends User{
 
     public Teacher(User user) {
         super(user);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
