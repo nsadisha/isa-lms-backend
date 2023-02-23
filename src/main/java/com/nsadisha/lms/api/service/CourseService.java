@@ -68,7 +68,7 @@ public class CourseService {
                     .build();
 
             student.getRegistrations().add(registration);
-//            course.getRegistrations().add(registration); //error
+            course.getRegistrations().add(registration);
 
             return registrationRepository.save(registration);
         }catch(DataIntegrityViolationException e) {
