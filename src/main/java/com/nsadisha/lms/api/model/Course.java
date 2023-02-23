@@ -1,12 +1,14 @@
 package com.nsadisha.lms.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,6 +26,7 @@ public class Course {
     private int id;
 
     @Column(unique = true, nullable = false)
+    @JsonProperty("course_code")
     private String courseCode;
 
     @Column(nullable = false)
@@ -36,5 +39,5 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<StudentCourseRegistration> registrations;
+    public Set<StudentCourseRegistration> registrations = new HashSet<>();
 }
