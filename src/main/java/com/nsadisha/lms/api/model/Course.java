@@ -40,4 +40,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public Set<StudentCourseRegistration> registrations = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
