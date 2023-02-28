@@ -54,6 +54,10 @@ public class CourseService {
         );
     }
 
+    public List<Course> search(String query) {
+        return courseRepository.findCoursesByNameContaining(query);
+    }
+
     public StudentCourseRegistration enrollStudent(int courseId, String email) throws Exception {
         try{
             Student student = studentService.getStudent(email);

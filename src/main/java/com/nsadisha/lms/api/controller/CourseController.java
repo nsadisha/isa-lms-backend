@@ -29,6 +29,11 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String query) {
+        return ResponseEntity.ok(courseService.search(query));
+    }
+
     @GetMapping("/{id}/students")
     public ResponseEntity<?> getEnrolledStudents(@PathVariable int id) throws Exception{
         return ResponseEntity.ok(courseService.getEnrolledStudents(id));
