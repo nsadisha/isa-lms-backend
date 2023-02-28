@@ -55,7 +55,7 @@ public class CourseService {
     }
 
     public List<Course> search(String query) {
-        return courseRepository.findCoursesByNameContaining(query);
+        return courseRepository.findCoursesByNameContainingIgnoreCase(query);
     }
 
     public StudentCourseRegistration enrollStudent(int courseId, String email) throws Exception {
