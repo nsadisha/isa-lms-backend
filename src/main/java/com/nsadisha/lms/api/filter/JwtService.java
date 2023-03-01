@@ -1,10 +1,12 @@
 package com.nsadisha.lms.api.filter;
 
+import com.nsadisha.lms.api.service.TokenInvalidationService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,11 @@ import java.util.function.Function;
  * @created 01 of Feb 2023
  **/
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     @Value("${SECRET_KEY}")
     private String SECRET_KEY;
+    private final TokenInvalidationService tokenInvalidationService;
 
     //token with extra claims
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
@@ -66,7 +70,7 @@ public class JwtService {
     //check is a token is valid
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isTokenBlacklisted(token);
     }
 
     //check if a token is expired
@@ -81,5 +85,13 @@ public class JwtService {
     private Key getSignedKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public boolean blacklistToken(String token) {
+        return tokenInvalidationService.add(token);
+    }
+
+    private boolean isTokenBlacklisted(String token) {
+        return tokenInvalidationService.isTokenBlacklisted(token);
     }
 }

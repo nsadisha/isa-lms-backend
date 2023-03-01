@@ -2,7 +2,7 @@ package com.nsadisha.lms.api.controller;
 
 import com.nsadisha.lms.api.controller.auth.RegisterRequest;
 import com.nsadisha.lms.api.model.User;
-import com.nsadisha.lms.api.service.ManagementStaffServiceImpl;
+import com.nsadisha.lms.api.service.ManagementStaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/management")
 public class ManagementStaffController {
-    private final ManagementStaffServiceImpl managementStaffService;
+    private final ManagementStaffService managementStaffService;
 
     @GetMapping("/get_all_users")
     public ResponseEntity<List<User>> getAllUsers() {

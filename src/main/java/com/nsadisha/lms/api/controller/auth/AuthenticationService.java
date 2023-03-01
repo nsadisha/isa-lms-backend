@@ -2,15 +2,16 @@ package com.nsadisha.lms.api.controller.auth;
 
 import com.nsadisha.lms.api.exception.EmailAlreadyInUseException;
 import com.nsadisha.lms.api.filter.JwtService;
-import com.nsadisha.lms.api.model.User;
-import com.nsadisha.lms.api.model.UserFactory;
+import com.nsadisha.lms.api.model.*;
+import com.nsadisha.lms.api.repository.ManagementStaffRepository;
+import com.nsadisha.lms.api.repository.StudentRepository;
+import com.nsadisha.lms.api.repository.TeacherRepository;
 import com.nsadisha.lms.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,10 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
+    private final ManagementStaffRepository managementRepository;
+
     private final UserFactory userFactory;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -40,7 +45,11 @@ public class AuthenticationService {
                     .role(request.getRole())
                     .build();
 
-            userRepository.save(userFactory.getInstance(user));
+            switch(request.getRole()) {
+                case STUDENT -> studentRepository.save((Student) userFactory.getInstance(user));
+                case TEACHER -> teacherRepository.save((Teacher) userFactory.getInstance(user));
+                case MANAGEMENT_STAFF -> managementRepository.save((ManagementStaff) userFactory.getInstance(user));
+            }
 
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
@@ -68,9 +77,14 @@ public class AuthenticationService {
                     .user(user)
                     .build();
         }catch(BadCredentialsException e) {
-            throw new UsernameNotFoundException("Email or password is incorrect.");
+            throw new BadCredentialsException("Email or password is incorrect.");
         }catch(Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }
+    }
+
+    public String logout(String token) {
+        boolean logoutStatus = jwtService.blacklistToken(token);
+        return logoutStatus ? "Logout success" : "Logout failed";
     }
 }

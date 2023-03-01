@@ -1,8 +1,10 @@
 package com.nsadisha.lms.api.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -16,13 +18,13 @@ public class ErrorInfo {
     private final Exception e;
     private final HttpServletRequest httpReq;
 
-    Date timestamp = new Date();
+    LocalDateTime timestamp = LocalDateTime.now();
 
     public Map<String, ?> asMap() {
         return Map.of(
                 "method", httpReq.getMethod(),
                 "path", httpReq.getServletPath(),
-                "timestamp", timestamp,
+                "timestamp", timestamp.toString(),
                 "message", e.getLocalizedMessage()
         );
     }
@@ -30,7 +32,7 @@ public class ErrorInfo {
         return Map.of(
                 "method", httpReq.getMethod(),
                 "path", httpReq.getServletPath(),
-                "timestamp", timestamp,
+                "timestamp", timestamp.toString(),
                 "message", message
         );
     }
@@ -44,7 +46,7 @@ public class ErrorInfo {
         return "{" +
                 "\"method\": \""+httpReq.getMethod()+
                 "\",\"path\": \""+httpReq.getServletPath()+
-                "\",\"timestamp\": \""+timestamp+
+                "\",\"timestamp\": \""+timestamp.toString()+
                 "\",\"message\": \""+message+
                 "\"}";
     }

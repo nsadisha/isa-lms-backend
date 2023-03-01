@@ -1,8 +1,8 @@
 package com.nsadisha.lms.api.controller;
 
 import com.nsadisha.lms.api.model.Course;
-import com.nsadisha.lms.api.service.StudentService;
-import lombok.RequiredArgsConstructor;
+import com.nsadisha.lms.api.service.TeacherService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +13,16 @@ import java.util.List;
 
 /**
  * @author Sadisha Nimsara
- * @created 01 of Feb 2023
+ * @created 23 of Feb 2023
  **/
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/student")
-public class StudentController {
-    private final StudentService studentService;
+@AllArgsConstructor
+@RequestMapping("/teacher")
+public class TeacherController {
+    private final TeacherService teacherService;
 
     @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getEnrolledCourses(Authentication authentication){
-        return ResponseEntity.ok(studentService.getEnrolledCourses(authentication.getName()));
+    public ResponseEntity<List<Course>> getConducting(Authentication authentication) {
+        return ResponseEntity.ok(teacherService.getConductingCourses(authentication.getName()));
     }
 }
