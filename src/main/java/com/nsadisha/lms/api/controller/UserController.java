@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/info")
-    ResponseEntity<?> getUserInfo(Authentication auth) throws UsernameNotFoundException {
+    ResponseEntity<User> getUserInfo(Authentication auth) throws UsernameNotFoundException {
         User user = userService.getUser(auth.getName());
         return ResponseEntity.ok(user);
     }
