@@ -19,8 +19,7 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
@@ -56,6 +55,15 @@ class TeacherServiceTest {
 
         assertNotNull(resultTeacher);
         assertEquals(email, resultTeacher.getEmail());
+    }
+
+    @Test
+    public void should_throw_an_exception_when_email_is_not_found() {
+        String email = "test@test.com";
+
+        assertThrows(UsernameNotFoundException.class, () -> {
+            teacherService.getTeacher(email);
+        });
     }
 
     @Test
