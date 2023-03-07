@@ -1,6 +1,7 @@
 package com.nsadisha.lms.api.controller.auth;
 
 import com.nsadisha.lms.api.exception.EmailAlreadyInUseException;
+import com.nsadisha.lms.api.exception.InvalidRequestValueException;
 import com.nsadisha.lms.api.filter.JwtService;
 import com.nsadisha.lms.api.model.*;
 import com.nsadisha.lms.api.repository.ManagementStaffRepository;
@@ -58,6 +59,8 @@ public class AuthenticationService {
                     .build();
         }catch(DataIntegrityViolationException e){
             throw new EmailAlreadyInUseException("Your email address is already in use.");
+        }catch(InvalidRequestValueException e){
+            throw e;
         }catch(Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }
