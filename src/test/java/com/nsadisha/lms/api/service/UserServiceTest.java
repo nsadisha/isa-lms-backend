@@ -1,6 +1,7 @@
 package com.nsadisha.lms.api.service;
 
 import com.nsadisha.lms.api.model.Role;
+import com.nsadisha.lms.api.model.Student;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.model.UserFactory;
 import com.nsadisha.lms.api.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -37,7 +39,7 @@ class UserServiceTest {
                 .role(Role.STUDENT).build();
 
         when(userRepository.findUserByEmail(email)).thenReturn(Optional.of(user));
-        when(userService.getUser(email)).thenReturn(user);
+        when(userFactory.getInstance(any())).thenReturn(new Student(user));
         User resultUser = userService.getUser(email);
 
         assertNotNull(resultUser);
