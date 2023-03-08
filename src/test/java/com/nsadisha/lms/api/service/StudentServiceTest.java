@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Sadisha Nimsara
@@ -31,6 +30,7 @@ class StudentServiceTest {
 
     @Test
     public void should_return_a_student_by_email(){
+        // GIVEN
         String email = "teacher@test.com";
         User user = User.builder()
                 .first_name("Test")
@@ -40,27 +40,30 @@ class StudentServiceTest {
                 .role(Role.TEACHER).build();
         Student student = new Student(user);
 
+        // WHEN
         when(studentRepository.findStudentByEmail(email)).thenReturn(Optional.of(student));
         Student resultStudent = studentService.getStudent(email);
 
+        // THEN
         assertNotNull(resultStudent);
         assertEquals(email, resultStudent.getEmail());
     }
 
     @Test
     public void should_throw_an_exception_when_email_is_not_found(){
+        // GIVEN
         String email = "teacher@test.com";
 
-//        Student resultStudent = studentService.getStudent(email);
+        // WHEN
+        when(studentRepository.findStudentByEmail(email)).thenThrow(UsernameNotFoundException.class);
 
-        assertThrows(UsernameNotFoundException.class, () -> {
-            studentService.getStudent(email);
-        });
+        // THEN
+        assertThrows(UsernameNotFoundException.class, () -> studentService.getStudent(email));
     }
 
     @Test
     public void should_return_enrolled_courses_of_a_student(){
-        studentService = spy(studentService);
+        // GIVEN
         String email = "teacher@test.com";
         User user = User.builder()
                 .first_name("Test")
@@ -70,12 +73,11 @@ class StudentServiceTest {
                 .role(Role.TEACHER).build();
         Student student = new Student(user);
 
+        // WHEN
         when(studentRepository.findStudentByEmail(email)).thenReturn(Optional.of(student));
-        doReturn(student).when(studentService).getStudent(email);
-        when(studentService.getEnrolledCourses(email)).thenReturn(anyList());
         List<Course> courses = studentService.getEnrolledCourses(email);
 
+        // THEN
         assertNotNull(courses);
     }
-
 }

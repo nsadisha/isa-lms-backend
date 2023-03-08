@@ -30,6 +30,7 @@ class UserServiceTest {
 
     @Test
     public void should_return_a_user_by_email(){
+        //GIVEN
         String email = "test@test.com";
         User user = User.builder()
                 .first_name("Test")
@@ -38,10 +39,12 @@ class UserServiceTest {
                 .password("password")
                 .role(Role.STUDENT).build();
 
+        // WHEN
         when(userRepository.findUserByEmail(email)).thenReturn(Optional.of(user));
         when(userFactory.getInstance(any())).thenReturn(new Student(user));
         User resultUser = userService.getUser(email);
 
+        // THEN
         assertNotNull(resultUser);
         assertEquals(email, resultUser.getEmail());
     }

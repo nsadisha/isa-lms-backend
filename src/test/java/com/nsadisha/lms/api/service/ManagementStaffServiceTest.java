@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,11 +32,14 @@ class ManagementStaffServiceTest {
 
     @Test
     public void should_return_a_list_of_all_users() {
+        // GIVEN
         List<User> users = List.of();
 
-        when(managementStaffService.getAllUsers()).thenReturn(users);
+        // WHEN
+        when(userRepository.findAll()).thenReturn(users);
         List<User> allUsers = managementStaffService.getAllUsers();
 
+        // THEN
         assertNotNull(allUsers);
     }
 
@@ -57,12 +61,13 @@ class ManagementStaffServiceTest {
                 .role(Role.MANAGEMENT_STAFF)
                 .build();
 
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
+                .user(user)
+                .token("token")
+                .build();
+
         // WHEN
-        when(authenticationService.register(request)).thenReturn(
-                AuthenticationResponse.builder()
-                        .user(user)
-                        .build()
-        );
+        when(authenticationService.register(any())).thenReturn(authenticationResponse);
         AuthenticationResponse response = managementStaffService.assignNewStaffMember(request);
         User responseUser = (User) response.getUser();
 

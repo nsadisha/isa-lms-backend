@@ -1,23 +1,25 @@
 package com.nsadisha.lms.api.service;
 
+import com.nsadisha.lms.api.exception.CourseCreationFailureException;
+import com.nsadisha.lms.api.exception.CourseEnrollmentFailedException;
 import com.nsadisha.lms.api.exception.CourseNotFoundException;
-import com.nsadisha.lms.api.model.Course;
-import com.nsadisha.lms.api.model.Role;
-import com.nsadisha.lms.api.model.Teacher;
-import com.nsadisha.lms.api.model.User;
+import com.nsadisha.lms.api.model.*;
 import com.nsadisha.lms.api.repository.CourseRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -60,6 +62,7 @@ class CourseServiceTest {
     }
 
     @Test
+
     public void should_return_a_course_with_a_given_id() throws Exception {
         // GIVEN
         Course course = Course.builder()
@@ -81,6 +84,7 @@ class CourseServiceTest {
 
     @Test
     public void should_throw_an_exception_when_course_is_not_found() {
+        // THEN
         assertThrows(CourseNotFoundException.class, () -> courseService.getCourseById(-1));
     }
 
@@ -105,9 +109,10 @@ class CourseServiceTest {
 
         // WHEN
         when(teacherService.getTeacher(teacher.getEmail())).thenReturn(teacher);
-        when(courseService.createNewCourse(course, teacher.getEmail())).thenReturn(course);
+        when(courseRepository.save(any())).thenReturn(course);
         Course resultCourse = courseService.createNewCourse(course, teacher.getEmail());
 
+        // THEN
         assertNotNull(resultCourse);
         assertEquals(course.getCourseCode(), resultCourse.getCourseCode());
         assertEquals(teacher, resultCourse.getConductor());
@@ -115,6 +120,106 @@ class CourseServiceTest {
 
     @Test
     public void should_throw_an_exception_when_creating_courses_with_duplicate_course_codes() {
-        // TODO : complete
+        // GIVEN
+        Course course = Course.builder()
+                .id(0)
+                .name("Test course")
+                .courseCode("ABCD 12345")
+                .description("Test description")
+                .build();
+
+        User user = User.builder()
+                .first_name("Test")
+                .last_name("Test")
+                .email("test@email.com")
+                .password("password")
+                .role(Role.TEACHER).build();
+
+        Teacher teacher = new Teacher(user);
+
+        // WHEN
+        when(teacherService.getTeacher(anyString())).thenReturn(teacher);
+        when(courseRepository.save(any())).thenThrow(DataIntegrityViolationException.class);
+
+        // THEN
+        assertThrows(CourseCreationFailureException.class, () -> courseService.createNewCourse(course, anyString()));
+    }
+
+    @Test @Disabled
+    public void should_enroll_a_student_to_a_course() throws Exception {
+        // GIVEN
+        User teacherUser = User.builder()
+                .first_name("Test")
+                .last_name("Test")
+                .email("test@email.com")
+                .password("password")
+                .role(Role.STUDENT).build();
+
+        Teacher teacher = new Teacher(teacherUser);
+
+        Course course = Course.builder()
+                .id(0)
+                .name("Test course")
+                .courseCode("ABCD 12345")
+                .description("Test description")
+                .conductor(teacher)
+                .registrations(Set.of())
+                .build();
+
+        User studentUser = User.builder()
+                .first_name("Test")
+                .last_name("Test")
+                .email("test@email.com")
+                .password("password")
+                .role(Role.STUDENT).build();
+
+        Student student = new Student(studentUser);
+
+        StudentCourseRegistration registration = StudentCourseRegistration
+                .builder()
+                .student(student)
+                .course(course)
+                .registrationDate(LocalDateTime.now())
+                .build();
+
+        // WHEN
+        when(studentService.getStudent(anyString())).thenReturn(student);
+        when(courseService.getCourseById(anyInt())).thenReturn(course); // err
+        when(registrationService.save(any())).thenReturn(registration);
+//        StudentCourseRegistration result = courseService.enrollStudent(course.getId(), student.getEmail());
+
+        // THEN
+//        assertNotNull(result);
+    }
+
+    @Test
+    public void should_throw_an_exception_when_trying_to_enroll_twice() {
+        // WHEN
+        when(registrationService.save(any())).thenThrow(DataIntegrityViolationException.class);
+
+        // THEN
+        assertThrows(CourseEnrollmentFailedException.class, () -> courseService.enrollStudent(
+                0,
+                "test@gmail.com"
+        ));
+    }
+
+    @Test @Disabled
+    public void should_return_a_list_of_enrolled_students_in_a_course() throws Exception {
+        // GIVEN
+        Course course = Course.builder()
+                .id(0)
+                .name("Test course")
+                .courseCode("ABCD 12345")
+                .description("Test description")
+                .registrations(Set.of())
+                .build();
+
+        // WHEN
+        when(courseService.getCourseById(0)).thenReturn(course);
+        List<Student> enrolledStudents = courseService.getEnrolledStudents(0);
+
+        // THEN
+        assertNotNull(enrolledStudents);
     }
 }

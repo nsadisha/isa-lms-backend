@@ -77,23 +77,22 @@ class StudentCourseRegistrationServiceTest {
                 .description("Test description")
                 .courseCode("ABCD 12345").build();
 
+        StudentCourseRegistration registration = StudentCourseRegistration.builder()
+                .student(student)
+                .course(course).build();
+
         // WHEN
         when(registrationRepository.findStudentCourseRegistrationByCourseAndStudent(
                 course,
                 student
-        )).thenReturn(Optional.ofNullable(
-                StudentCourseRegistration.builder()
-                        .student(student)
-                        .course(course)
-                        .build())
-        );
+        )).thenReturn(Optional.of(registration));
 
-        StudentCourseRegistration registration = registrationService.getRegistration(course, student);
+        StudentCourseRegistration resultRegistration = registrationService.getRegistration(course, student);
 
         // THEN
-        assertNotNull(registration);
-        assertEquals(course, registration.getCourse());
-        assertEquals(student, registration.getStudent());
+        assertNotNull(resultRegistration);
+        assertEquals(course, resultRegistration.getCourse());
+        assertEquals(student, resultRegistration.getStudent());
     }
 
     @Test @Disabled
