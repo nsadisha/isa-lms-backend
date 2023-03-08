@@ -1,57 +1,44 @@
 package com.nsadisha.lms.api.controller;
 
-import com.nsadisha.lms.api.filter.JwtService;
+import com.nsadisha.lms.api.model.Role;
 import com.nsadisha.lms.api.model.User;
-import com.nsadisha.lms.api.service.TokenInvalidationService;
 import com.nsadisha.lms.api.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 /**
  * @author Sadisha Nimsara
- * @created 01 of Mar 2023
+ * @created 08 of Mar 2023
  **/
-
-@WebMvcTest
-@AutoConfigureMockMvc
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {JwtService.class, TokenInvalidationService.class, UserController.class})
-public class UserControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private UserService userService;
+class UserControllerTest {
+    @Mock private UserService userService;
+    @InjectMocks private UserController userController;
 
     @Test
     @WithMockUser
-    public void should_return_a_user() throws Exception {
-        // GIVEN
-        when(userService.getUser(any())).thenReturn(any(User.class));
+    public void should_return_a_user() {
+        User user = User.builder()
+                .first_name("Test")
+                .last_name("User")
+                .email("test@gmail.com")
+                .role(Role.STUDENT)
+                .password("password").build();
 
-        // WHEN
-        ResultActions response = mockMvc.perform(
-                get("/user/info")
-                        .secure(true)
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
+        when(userService.getUser(any())).thenReturn(user);
+        User resultUser = userController.getUserInfo(any()).getBody();
 
-        // THEN
-        response.andExpect(MockMvcResultMatchers.status().isOk());
+        assertNotNull(resultUser);
+        System.out.println(resultUser.getEmail());
     }
 }
