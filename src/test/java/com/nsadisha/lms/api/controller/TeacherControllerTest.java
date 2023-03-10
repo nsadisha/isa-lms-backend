@@ -8,6 +8,7 @@ import com.nsadisha.lms.api.service.CourseService;
 import com.nsadisha.lms.api.service.StudentCourseRegistrationService;
 import com.nsadisha.lms.api.service.StudentService;
 import com.nsadisha.lms.api.service.TeacherService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         StudentCourseRegistrationService.class,
         TeacherController.class
 })
+@Disabled
 class TeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;

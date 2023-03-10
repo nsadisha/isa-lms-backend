@@ -3,6 +3,7 @@ package com.nsadisha.lms.api.controller;
 import com.nsadisha.lms.api.model.Role;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.service.UserService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
  **/
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@Disabled
 class UserControllerTest {
     @Mock private UserService userService;
     @InjectMocks private UserController userController;

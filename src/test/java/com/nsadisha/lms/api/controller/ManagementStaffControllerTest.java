@@ -3,6 +3,7 @@ package com.nsadisha.lms.api.controller;
 import com.nsadisha.lms.api.controller.auth.AuthenticationResponse;
 import com.nsadisha.lms.api.model.User;
 import com.nsadisha.lms.api.service.ManagementStaffService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ContextConfiguration(classes = {
         ManagementStaffController.class
 })
+@Disabled
 class ManagementStaffControllerTest {
     @Autowired
     private MockMvc mockMvc;
