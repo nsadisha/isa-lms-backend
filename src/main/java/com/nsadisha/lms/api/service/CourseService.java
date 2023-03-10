@@ -1,6 +1,7 @@
 package com.nsadisha.lms.api.service;
 
 import com.nsadisha.lms.api.exception.CourseCreationFailureException;
+import com.nsadisha.lms.api.exception.CourseEnrollmentFailedException;
 import com.nsadisha.lms.api.exception.CourseNotFoundException;
 import com.nsadisha.lms.api.model.Course;
 import com.nsadisha.lms.api.model.Student;
@@ -75,9 +76,9 @@ public class CourseService {
 
             return registrationService.save(registration);
         }catch(DataIntegrityViolationException e) {
-            throw new CourseCreationFailureException("You have already enrolled in this course.");
+            throw new CourseEnrollmentFailedException("You have already enrolled in this course.");
         }catch(Exception e) {
-            throw new CourseCreationFailureException(e.getLocalizedMessage());
+            throw new CourseEnrollmentFailedException(e.getLocalizedMessage());
         }
     }
 

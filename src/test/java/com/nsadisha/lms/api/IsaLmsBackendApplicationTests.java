@@ -8,6 +8,7 @@ class IsaLmsBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
